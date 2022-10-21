@@ -24,11 +24,11 @@ public class Sql_event_store
         return Enumerable.Empty<IEvent>();
     }
 
-    public void Publish(Guid aggregate_id, IEvent @event)
+    public void Publish(IEvent @event)
     {
         var persisted_event = new PersistedEvent
         {
-            AggregateId = aggregate_id,
+            AggregateId = @event.Aggregate_id,
             DateTimeStamp = DateTimeOffset.UtcNow,
             Event = @event
         };

@@ -16,6 +16,7 @@ internal class Beer_package : Aggregate
 
     private Guid? package_id = null;
     private Shipping_label? shipping_label = null;
+    private bool? was_package_sent = null;
 
     #endregion
     public override void Apply(IEvent @event)
@@ -27,6 +28,9 @@ internal class Beer_package : Aggregate
                 return;
             case Shipping_label_added shipping_label_added:
                 ApplyEvent(shipping_label_added);
+                return;
+            case Package_sent:
+                was_package_sent = true;
                 return;
             default:
                 throw new NotImplementedException("Event type not implemented;");
@@ -74,6 +78,12 @@ internal class Beer_package : Aggregate
         if (shipping_label is null)
         {
             yield return new Package_failed_to_send(command.Package_id, Send_fail_reason.No_shipping_label);
+            yield break;
+        }
+
+        if (was_package_sent == true)
+        {
+            yield return new Package_failed_to_send(command.Package_id, Send_fail_reason.Already_sent);
             yield break;
         }
 

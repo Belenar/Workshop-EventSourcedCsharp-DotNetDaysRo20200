@@ -2,4 +2,5 @@
 
 public interface IEvent
 {
+    public Guid Aggregate_id { get; }
 }
