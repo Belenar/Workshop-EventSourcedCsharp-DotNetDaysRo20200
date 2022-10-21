@@ -11,9 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddHostedService<EventPollingService>();
-
-builder.Services.AddDbContext<ReadContext>(builder => builder.UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Read_storage;Integrated Security=SSPI"));
-builder.Services.AddDbContext<EventContext>(builder => builder.UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Event_storage;Integrated Security=SSPI"));
+builder.Services.AddDbContext<ReadContext>(builder => builder.UseSqlServer("Data Source=localhost;Initial Catalog=Read_storage;Integrated Security=SSPI"));
+builder.Services.AddDbContext<EventContext>(builder => builder.UseSqlServer("Data Source=localhost;Initial Catalog=Event_Storage;Integrated Security=SSPI"));
 builder.Services.AddTransient<Sql_event_store>();
 builder.Services.AddTransient<Command_router>(services =>
 {
